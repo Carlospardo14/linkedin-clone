@@ -1,10 +1,12 @@
 import { CalendarViewDay, Create,  Event, OndemandVideo, Photo } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 import './Feed.css'
-import { db, auth } from './firebase'
+import { db} from './firebase'
 import { collection ,addDoc, serverTimestamp,  query, onSnapshot, orderBy } from '@firebase/firestore'
 import InputOptions from './InputOptions'
 import Post from './Post'
+import FlipMove from 'react-flip-move'
+
 function Feed() {   
     const [input,setInput] = useState('')
     const [posts,setPosts] = useState([]);
@@ -60,19 +62,19 @@ function Feed() {
             </div>
 
             {/* Post */}
+            <FlipMove>
+                {posts.map(({ id, data: { name, description, message, photoUrl}}) => (
+                <Post 
+                    key={id}
+                    name={name}
+                    description={description}
+                    message={message}
+                    photoUrl={photoUrl}
+                />
+                ))}
+            </FlipMove>
 
-            {posts.map(({id, data: { name, description,photoUrl,message}} )=>
-            
-            (<Post 
-            key={id}
-            id={id}
-            name={name}
-            message={message}
-            description={description}
-            photoUrl={photoUrl}
-            />
            
-            ))}
             {/* <Post name="Carlos Pardo" description="This is not a test" message="wow this works"  /> */}
         </div>
     )
